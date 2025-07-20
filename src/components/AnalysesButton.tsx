@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 interface btnAnalysesProps {
-  variant:
+  variant?:
     | "default"
     | "link"
     | "secondary"
