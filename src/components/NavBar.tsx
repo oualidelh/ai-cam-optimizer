@@ -11,7 +11,7 @@ const NavBar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed px-3 top-0 right-0 left-0 backdrop-blur-md h-16 border-b borderbor flex items-center justify-between">
+    <nav className="fixed z-50 px-3 top-0 right-0 left-0 backdrop-blur-md h-16 border-b borderbor flex items-center justify-between">
       <Link to="/" className="flex items-center gap-1.5">
         <div className="bg-primary rounded-xl flex items-center justify-center text-white h-10 w-10">
           <Camera />
