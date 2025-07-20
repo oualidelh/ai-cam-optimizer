@@ -1,14 +1,14 @@
+import GetStarted from "./GetStarted";
 import Hero from "./Hero";
+import Highlights from "./Highlights";
 
 const HomePage = () => {
+  const homePageSection = [<Hero />, <Highlights />, <GetStarted />];
   return (
-    <main className="flex flex-col">
-      <section className="min-h-screen pt-16">
-        <Hero />
-        hello
-      </section>
-      <section></section>
-      <section></section>
+    <main className="flex flex-col pt-16">
+      {homePageSection.map((section) => (
+        <section className="h-[calc(100vh-64px)]">{section}</section>
+      ))}
     </main>
   );
 };
