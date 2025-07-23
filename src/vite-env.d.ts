@@ -6,3 +6,9 @@ type feature = {
   title: string;
   content: string;
 };
+
+type RoomDetails = {
+  width: number;
+  length: number;
+  height: number;
+};
