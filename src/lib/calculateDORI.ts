@@ -1,8 +1,9 @@
 export function calculateDORI(
-  focalLengthMm: number,
+  StringFocalLengthMm: string,
   horizontalPixels: number,
   sensorSizeLabel: string // e.g., "1/2.8"
 ): Record<string, number> {
+  const focalLengthMm = Number(StringFocalLengthMm);
   const sensorWidthMap: Record<string, number> = {
     "1/2.8": 5.6,
     "1/2.7": 5.37,

@@ -1,19 +1,21 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { calculateDORI } from "@/lib/calculateDORI";
-import { Cctv, Warehouse } from "lucide-react";
+import { ArrowRight, Cctv, ListCollapse, Ruler, Warehouse } from "lucide-react";
+import RoomForm from "./RoomForm";
+import CameraForm from "./CameraForm";
+import { useState } from "react";
 
 interface InputSetupProps {
-  setRoomDetails: React.Dispatch<React.SetStateAction<RoomDetails>>;
-  roomDetails: RoomDetails;
+  onClick: () => void;
 }
 
-const dori = calculateDORI(2.8, 2688, "1/3");
-console.log(dori);
+const InputSetup = ({ onClick }: InputSetupProps) => {
+  const [Analyses, setAnalyses] = useState<AnalysesBtn>({
+    isRoom: false,
+    isCamera: false,
+  });
 
-const InputSetup = ({ roomDetails, setRoomDetails }: InputSetupProps) => {
   return (
     <div className="flex flex-col justify-center items-center">
       <section>
@@ -27,72 +29,55 @@ const InputSetup = ({ roomDetails, setRoomDetails }: InputSetupProps) => {
       </section>
       <section className="container mx-auto px-4 max-w-4xl">
         <Card>
-          <CardContent className="p-8">
-            <Tabs defaultValue="room" className="space-y-8">
+          <CardContent className="p-8 ">
+            <Tabs defaultValue="room" className="space-y-8 min-h-56">
               <TabsList className="w-full">
                 <TabsTrigger value="room">
-                  <Warehouse />
+                  <Warehouse className="text-primary" />
                   Room
                 </TabsTrigger>
                 <TabsTrigger value="camera">
-                  <Cctv />
+                  <Cctv className="text-primary" />
                   Camera
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="room">
-                <div className="flex flex-col lg:flex-row justify-between  gap-3 w-full ">
-                  <Label className="flex flex-col items-start w-full gap-y-4">
-                    Width(meters)
-                    <Input
-                      id="width"
-                      type="number"
-                      placeholder="20"
-                      required
-                      value={roomDetails.width}
-                      onChange={(e) =>
-                        setRoomDetails((prev) => ({
-                          ...prev,
-                          width: parseFloat(e.target.value),
-                        }))
-                      }
-                    />
-                  </Label>
-                  <Label className="flex flex-col items-start w-full gap-y-4">
-                    Length(meters)
-                    <Input
-                      id="height"
-                      type="number"
-                      placeholder="20"
-                      required
-                      value={roomDetails.length}
-                      onChange={(e) =>
-                        setRoomDetails((prev) => ({
-                          ...prev,
-                          length: parseFloat(e.target.value),
-                        }))
-                      }
-                    />
-                  </Label>
-                  <Label className="flex flex-col items-start w-full gap-y-4">
-                    Height(meters)
-                    <Input
-                      id="height"
-                      type="number"
-                      placeholder="20"
-                      required
-                      value={roomDetails.height}
-                      onChange={(e) =>
-                        setRoomDetails((prev) => ({
-                          ...prev,
-                          height: parseFloat(e.target.value),
-                        }))
-                      }
-                    />
-                  </Label>
-                </div>
+              <TabsContent className="space-y-4" value="room">
+                <CardHeader className="px-0">
+                  <CardTitle className="flex items-center gap-2 my-3">
+                    <Ruler className="h-5 w-5 text-primary" />
+                    Room Dimensions
+                  </CardTitle>
+                </CardHeader>
+                <RoomForm setAnalyses={setAnalyses} />
               </TabsContent>
-              <TabsContent value="camera"></TabsContent>
+              <TabsContent className="space-y-4" value="camera">
+                <CardHeader className="px-0">
+                  <CardTitle className="flex items-center gap-2 my-3">
+                    <ListCollapse className="h-5 w-5 text-primary" />
+                    Camera Details
+                  </CardTitle>
+                </CardHeader>
+
+                <CameraForm setAnalyses={setAnalyses} />
+              </TabsContent>
             </Tabs>
+            <div className="flex justify-between mt-8 pt-6 border-t">
+              <div className="text-sm text-muted-foreground">
+                {/* {isFormValid() ? (
+                  <span className="text-success">✓ Ready for analysis</span>
+                ) : (
+                  <span>Complete dimensions to continue</span>
+                )} */}
+              </div>
+              <Button
+                disabled={!(Analyses.isCamera && Analyses.isRoom)}
+                onClick={onClick}
+                className="w-48 h-10 cursor-pointer"
+              >
+                <span>Start Analyses</span>
+                <ArrowRight />
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </section>

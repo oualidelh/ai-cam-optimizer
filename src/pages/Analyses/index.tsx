@@ -1,19 +1,21 @@
 import { useState } from "react";
 import InputSetup from "./InputSetup";
-import Konva from "./Konva";
-
-const roomDetailsInit = {
-  width: 20,
-  length: 15,
-  height: 5,
-};
+import ResultPage from "./ResultPage";
+import { useAnalysesStore } from "@/store/ZustandStore";
 
 const Analyses = () => {
-  const [roomDetails, setRoomDetails] = useState(roomDetailsInit);
+  const [isResults, setIsResults] = useState(false);
+  const { roomDetails, cameraDetails } = useAnalysesStore();
+
+  const handleAnalyses = () => {
+    console.log("roomDetails", roomDetails, "cameraDetails", cameraDetails);
+    setIsResults(true);
+  };
+
   return (
     <main className="min-h-[100vh] pt-16">
-      <InputSetup roomDetails={roomDetails} setRoomDetails={setRoomDetails} />
-      {/* <Konva /> */}
+      <InputSetup onClick={handleAnalyses} />
+      <ResultPage />
     </main>
   );
 };
