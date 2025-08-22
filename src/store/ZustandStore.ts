@@ -19,23 +19,36 @@ export const useAnalysesStore = create<AnalysesStore>((set) => ({
   },
 
   cameraDetails: {
+    id: "",
     cameraDORI: [
       {
+        id: "",
+        name: "identify",
+        pixelatedImg: "/src/assets/id-pixel.png",
         startRadius: 0,
         layerThickness: 5,
         color: "",
       },
       {
+        id: "",
+        name: "recognize",
+        pixelatedImg: "/src/assets/re-pixel.png",
         startRadius: 5,
         layerThickness: 9.9,
         color: "",
       },
       {
+        id: "",
+        name: "observe",
+        pixelatedImg: "/src/assets/ob-pixel.png",
         startRadius: 9.9,
         layerThickness: 19.9,
         color: "",
       },
       {
+        id: "",
+        name: "detect",
+        pixelatedImg: "/src/assets/de-pixel.png",
         startRadius: 19.9,
         layerThickness: 49,
         color: "",

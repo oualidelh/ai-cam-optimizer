@@ -19,27 +19,40 @@ type RoomDetails = {
 };
 type CameraDORI = [
   {
+    id: string;
+    name: string;
+    pixelatedImg: string;
     startRadius: number;
     layerThickness: number;
     color: string;
   },
   {
+    id: string;
+    name: string;
+    pixelatedImg: string;
     startRadius: number;
     layerThickness: number;
     color: string;
   },
   {
+    id: string;
+    name: string;
+    pixelatedImg: string;
     startRadius: number;
     layerThickness: number;
     color: string;
   },
   {
+    id: string;
+    name: string;
+    pixelatedImg: string;
     startRadius: number;
     layerThickness: number;
     color: string;
   }
 ];
 type CameraDetails = {
+  id: string;
   cameraDORI: CameraDORI;
   horizontalFOV: number;
   tiltRange: number;
