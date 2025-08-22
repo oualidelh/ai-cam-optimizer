@@ -20,8 +20,9 @@ const NavBar = () => {
         <span className="text-xl font-bold text-foreground">CamOptimizer</span>
       </Link>
       <div className="flex items-center  gap-8">
-        {routingPaths.map((route) => (
+        {routingPaths.map((route, index) => (
           <Link
+            key={index}
             className={`text-sm font-medium rounded-md px-3 py-2  transition-colors duration-200 ${
               isActive(route.path)
                 ? " text-primary bg-primary/10 "
