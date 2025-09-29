@@ -3,7 +3,6 @@ import Konva from "./Konva";
 import Cameras from "./Cameras";
 import { useState } from "react";
 import { useAnalysesStore } from "@/store/ZustandStore";
-// import { useAnalysesStore } from "@/store/ZustandStore";
 
 // interface ResultPageProps {
 //   cameraDetails: CameraDetails;
@@ -11,33 +10,71 @@ import { useAnalysesStore } from "@/store/ZustandStore";
 // }
 
 const ResultPage = () => {
-  const { camerasCharc } = useAnalysesStore();
+  const { camerasCharc, setCamerasCharc } = useAnalysesStore();
   const [idsDORI, setIdsDORI] = useState<string[]>([
     camerasCharc[camerasCharc.length && camerasCharc.length - 1]?.cameraDORI[0]
       .id,
   ]);
+  // const [tiltValues, setTiltValues] = useState<TiltValues>();
 
-  console.log(
-    "camerasChar FIRST item dori",
-    camerasCharc[camerasCharc.length && camerasCharc.length - 1]?.cameraDORI[0]
-      .id
-  );
-  console.log("idsdori", idsDORI);
+  // const [camRotation, setCamRotation] = useState<CamRotation[]>([]);
 
-  const DORIClicked = (
-    DORIid: string
-    // cameraId: string
-  ) => {
+  const DORIClicked = (DORIid: string) => {
     setIdsDORI((prev) =>
       prev.includes(DORIid)
         ? prev.filter((item) => item !== DORIid)
         : [...prev, DORIid]
     );
-    // setCamId((prev) =>
-    //   prev.includes(cameraId)
-    //     ? prev.filter((item) => item !== cameraId)
-    //     : [...prev, cameraId]
-    // );
+  };
+
+  const handleCamControl = (
+    id: string,
+    value: string | number,
+    controlType: string
+  ) => {
+    switch (controlType) {
+      case "tilt": {
+        console.log("controleType", controlType);
+        const tiltRange = typeof value === "string" ? Number(value) : value;
+
+        // setTiltValues((prev) => {
+        //   return prev?.map((camTilt) =>
+        //     camTilt.tiltId === id
+        //       ? {
+        //           ...camTilt,
+        //           tiltVal: tiltRange,
+        //         }
+        //       : camTilt
+        //   );
+        // });
+
+        // setTiltVal(tiltRange);
+        setCamerasCharc((prev) => {
+          return prev.map((cam) =>
+            cam.id === id
+              ? {
+                  ...cam,
+                  tiltRange,
+                }
+              : cam
+          );
+        });
+        break;
+      }
+      case "rotation": {
+        console.log("controleType", controlType);
+        const rotationVal = typeof value === "string" ? Number(value) : value;
+        setCamerasCharc((prev) => {
+          return prev.map((cam) =>
+            cam.id === id ? { ...cam, camRotation: rotationVal } : cam
+          );
+        });
+        break;
+      }
+      default: {
+        console.log("Oops there is no such control type");
+      }
+    }
   };
   return (
     <main>
@@ -49,7 +86,11 @@ const ResultPage = () => {
               <CardHeader>
                 <CardTitle>Room Lyout</CardTitle>
               </CardHeader>
-              <Konva idsDORI={idsDORI} />
+              <Konva
+                idsDORI={idsDORI}
+                // camRotation={camRotation}
+                // tiltValues={tiltValues}
+              />
             </CardContent>
           </div>
           <div className="lg:w-[35%] bg-gray-100 rounded-xl">
@@ -57,7 +98,11 @@ const ResultPage = () => {
               <CardHeader>
                 <CardTitle>Camera Details</CardTitle>
               </CardHeader>
-              <Cameras DORIClicked={DORIClicked} idsDORI={idsDORI} />
+              <Cameras
+                DORIClicked={DORIClicked}
+                handleCamControl={handleCamControl}
+                idsDORI={idsDORI}
+              />
             </CardContent>
           </div>
         </Card>

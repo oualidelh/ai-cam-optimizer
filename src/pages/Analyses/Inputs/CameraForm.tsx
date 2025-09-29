@@ -24,11 +24,16 @@ const CameraForm = ({
   analyses,
 }: CaemraFormProps) => {
   const { camerasCharc, setCamerasCharc } = useAnalysesStore();
+  const { tiltValues, setTiltValues } = useAnalysesStore();
+
   const { control, formState, getValues, trigger } = useFormContext();
   // const [isDisabled, setIsDisabled] = useState(true);
 
+  const camId = uuidv4();
+
   console.log(camerasCharc);
-  console.log("control._formState", formState.isValid);
+  console.log("control._formState ", formState.isValid);
+  console.log("tiltValues", tiltValues);
 
   // const checkDisabled = useCallback(async () => {}, [trigger]);
 
@@ -40,6 +45,7 @@ const CameraForm = ({
       "doriDetect",
       "horizontalFOV",
       "tiltRange",
+      "verticalFOV",
     ]);
 
     console.log("isValid", isValid);
@@ -49,7 +55,6 @@ const CameraForm = ({
     //   isCamera: true,
     // }));
 
-    const camId = uuidv4();
     setCamerasCharc((prev) => {
       return [
         ...prev,
@@ -60,7 +65,6 @@ const CameraForm = ({
               id: `${camId}-0`,
               name: "identify",
               pixelatedImg: "/src/assets/id-pixel.png",
-              startRadius: 0,
               layerThickness: getValues("doriIdentify"),
               color: "rgba(9, 153, 6, 0.5)",
             },
@@ -68,7 +72,6 @@ const CameraForm = ({
               id: `${camId}-1`,
               name: "recognize",
               pixelatedImg: "/src/assets/re-pixel.png",
-              startRadius: getValues("doriIdentify"),
               layerThickness: getValues("doriRecognize"),
               color: "rgba(64, 158, 210, 0.4)",
             },
@@ -76,7 +79,6 @@ const CameraForm = ({
               id: `${camId}-2`,
               name: "observe",
               pixelatedImg: "/src/assets/ob-pixel.png",
-              startRadius: getValues("doriRecognize"),
               layerThickness: getValues("doriObserve"),
               color: "rgba(49, 118, 159, 0.4)",
             },
@@ -84,15 +86,32 @@ const CameraForm = ({
               id: `${camId}-3`,
               name: "detect",
               pixelatedImg: "/src/assets/de-pixel.png",
-              startRadius: getValues("doriObserve"),
               layerThickness: getValues("doriDetect"),
               color: "rgba(213, 213, 213, 0.2)",
             },
           ],
           horizontalFOV: getValues("horizontalFOV"),
           tiltRange: getValues("tiltRange"),
+          camRotation: 360,
+          verticalFOV: getValues("verticalFOV"),
         },
       ];
+    });
+
+    setTiltValues((prev) => {
+      const existing = prev.find((camTilt) => camTilt.tiltId === camId);
+
+      if (existing) {
+        // update that camera tilt
+        return prev.map((camTilt) =>
+          camTilt.tiltId === camId
+            ? { ...camTilt, tiltVal: getValues("tiltRange") }
+            : camTilt
+        );
+      } else {
+        // add a new tilt entry
+        return [...prev, { tiltId: camId, tiltVal: getValues("tiltRange") }];
+      }
     });
 
     control._reset();
@@ -267,6 +286,32 @@ const CameraForm = ({
                     <FormControl>
                       <Input
                         placeholder="78"
+                        type="number"
+                        value={field.value ?? ""}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          field.onChange(val === "" ? "" : Number(val));
+                        }}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This is your public display name.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormField
+                control={control}
+                name="verticalFOV"
+                render={({ field }) => (
+                  <FormItem className="gap-y-3">
+                    <FormLabel className="pl-1">verticalFOV (degree)</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="71"
                         type="number"
                         value={field.value ?? ""}
                         onChange={(e) => {
