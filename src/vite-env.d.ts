@@ -17,47 +17,47 @@ type RoomDetails = {
   roomLength: number;
   roomHeight: number;
 };
-type CameraDORI = [
-  {
-    id: string;
-    name: string;
-    pixelatedImg: string;
-    startRadius: number;
-    layerThickness: number;
-    color: string;
-  },
-  {
-    id: string;
-    name: string;
-    pixelatedImg: string;
-    startRadius: number;
-    layerThickness: number;
-    color: string;
-  },
-  {
-    id: string;
-    name: string;
-    pixelatedImg: string;
-    startRadius: number;
-    layerThickness: number;
-    color: string;
-  },
-  {
-    id: string;
-    name: string;
-    pixelatedImg: string;
-    startRadius: number;
-    layerThickness: number;
-    color: string;
-  }
-];
+type DORI = {
+  id: string;
+  name: string;
+  pixelatedImg: string;
+  layerThickness: number;
+  color: string;
+};
+
+type CameraDORI = DORI[];
+
 type CameraDetails = {
   id: string;
   cameraDORI: CameraDORI;
   horizontalFOV: number;
   tiltRange: number;
+  camRotation: number;
+  verticalFOV: number;
 };
 
 type CamerasCharc = CameraDetails[];
 
 type CameraCount = number;
+
+type CamRotation = {
+  camId: string;
+  rotationVal: string | number;
+};
+
+type CellsAttr = {
+  x: number;
+  y: number;
+  stroke: string;
+  width: number;
+  height: number;
+  strokeWidth: number;
+};
+type CellsArray = CellsAttr[];
+
+type TiltValue = {
+  tiltId: string;
+  tiltVal: number;
+};
+
+type TiltValues = TiltValue[];
