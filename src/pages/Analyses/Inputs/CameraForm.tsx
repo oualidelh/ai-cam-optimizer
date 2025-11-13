@@ -94,6 +94,10 @@ const CameraForm = ({
           tiltRange: getValues("tiltRange"),
           camRotation: 360,
           verticalFOV: getValues("verticalFOV"),
+          camPosition: {
+            x: 2,
+            y: 2,
+          },
         },
       ];
     });

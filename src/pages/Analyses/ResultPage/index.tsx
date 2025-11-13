@@ -15,6 +15,7 @@ const ResultPage = () => {
     camerasCharc[camerasCharc.length && camerasCharc.length - 1]?.cameraDORI[0]
       .id,
   ]);
+
   // const [tiltValues, setTiltValues] = useState<TiltValues>();
 
   // const [camRotation, setCamRotation] = useState<CamRotation[]>([]);
@@ -81,7 +82,7 @@ const ResultPage = () => {
       <header></header>
       <section className="py-5 mx-auto px-4 max-w-8xl">
         <Card className="flex lg:flex-row p-5">
-          <div className="lg:w-[65%] ">
+          <div className="lg:w-[65%]  bg-gray-100 rounded-lg p-3">
             <CardContent>
               <CardHeader>
                 <CardTitle>Room Lyout</CardTitle>
@@ -93,7 +94,7 @@ const ResultPage = () => {
               />
             </CardContent>
           </div>
-          <div className="lg:w-[35%] bg-gray-100 rounded-xl">
+          <div className="lg:w-[35%] bg-gray-100 rounded-lg p-3">
             <CardContent>
               <CardHeader>
                 <CardTitle>Camera Details</CardTitle>

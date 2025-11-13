@@ -61,6 +61,10 @@ export const useAnalysesStore = create<AnalysesStore>((set) => ({
     tiltRange: 78,
     camRotation: 360,
     verticalFOV: 71,
+    camPosition: {
+      x: 2,
+      y: 2,
+    },
   },
   camerasCharc: [],
   cameraCount: 1,
