@@ -38,7 +38,7 @@ const Hero = () => {
         <div className="w-full lg:h-[350px] h-full group-hover:rotate-0 rotate-3 transition-all duration-200 absolute rounded-3xl shrink  bg-primary/20" />
         <img
           className="w-full lg:h-[350px] h-full rounded-3xl shadow-lg  group-hover:shadow-2xl transition-all duration-300 shrink z-10 object-cover"
-          src="public/hero-image.jpg"
+          src="/hero-image.jpg"
           alt="hero-image"
         />
       </div>
