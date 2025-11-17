@@ -1,9 +1,9 @@
-import { useRoomCells } from "@/hooks/useCellsRoom";
+// import { useRoomCells } from "@/hooks/useCellsRoom";
 import { useMeasurementUnit } from "@/hooks/useMeasurementUnit";
 import { useAnalysesStore } from "@/store/ZustandStore";
 import type Konva from "konva";
 import type { KonvaEventObject } from "konva/lib/Node";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
   Layer,
   Rect,
@@ -16,7 +16,7 @@ import {
   // Ring,
 } from "react-konva";
 import CameraDori from "./CameraDori";
-import { Camera } from "lucide-react";
+// import { Camera } from "lucide-react";
 
 interface KonvaPageProps {
   idsDORI: string[];
@@ -51,7 +51,7 @@ KonvaPageProps) => {
 
   // const [camPositions, setCamPositions] = useState<CamPositions>([]);
 
-  const cells = useRoomCells({ roomDetails, measurementUnit });
+  // const cells = useRoomCells({ roomDetails, measurementUnit });
 
   // console.log("cells", cells);
 
