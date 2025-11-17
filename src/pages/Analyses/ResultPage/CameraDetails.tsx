@@ -51,7 +51,7 @@ const CameraDetails = ({
               className="w-20 h-20"
               width="full"
               height="full"
-              src="/src/assets/cctvcam.jpg"
+              src="public/cctvcam.jpg"
               alt="cctvCam"
             />
             <div>
