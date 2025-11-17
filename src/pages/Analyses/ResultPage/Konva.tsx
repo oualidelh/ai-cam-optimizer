@@ -1,9 +1,9 @@
-import { useRoomCells } from "@/hooks/useCellsRoom";
+// import { useRoomCells } from "@/hooks/useCellsRoom";
 import { useMeasurementUnit } from "@/hooks/useMeasurementUnit";
 import { useAnalysesStore } from "@/store/ZustandStore";
 import type Konva from "konva";
 import type { KonvaEventObject } from "konva/lib/Node";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   Layer,
   Rect,
@@ -16,6 +16,7 @@ import {
   // Ring,
 } from "react-konva";
 import CameraDori from "./CameraDori";
+// import { Camera } from "lucide-react";
 
 interface KonvaPageProps {
   idsDORI: string[];
@@ -23,29 +24,131 @@ interface KonvaPageProps {
   // tiltValues: TiltValues;
 }
 
+// type CamPosition = {
+//   camId: string;
+//   camX: number;
+//   camY: number;
+// };
+
+// type CamPositions = CamPosition[];
+
 const KonvaComponent = ({
   idsDORI,
 }: // camRotation,
 // tiltValues,
 KonvaPageProps) => {
-  const { camerasCharc, roomDetails } = useAnalysesStore();
-  console.log("camerasCharc", camerasCharc);
-  console.log("roomDetails", roomDetails);
+  const { camerasCharc, roomDetails, setCamerasCharc } = useAnalysesStore();
+  // console.log("camerasCharc", camerasCharc);
+  // console.log("roomDetails", roomDetails);
   const stageRef = useRef<Konva.Stage | null>(null);
+  const rectRef = useRef<Konva.Rect | null>(null);
+  const groupRef = useRef<Konva.Group | null>(null);
   const konvaContainerRef = useRef<HTMLDivElement>(null);
-  console.log(konvaContainerRef.current?.clientWidth);
   const { measurementUnit, stagWidth } = useMeasurementUnit(
     roomDetails.roomWidth,
     konvaContainerRef
   );
 
-  const cells = useRoomCells({ roomDetails, measurementUnit });
+  // const [camPositions, setCamPositions] = useState<CamPositions>([]);
 
-  console.log("cells", cells);
+  // const cells = useRoomCells({ roomDetails, measurementUnit });
 
-  const stageHeight = roomDetails.roomLength * measurementUnit + 30;
+  // console.log("cells", cells);
 
-  const groupRef = useRef(null);
+  const stageHeight = roomDetails.roomLength * measurementUnit + 6;
+  console.log(
+    "camPositions",
+    // camPositions,
+    roomDetails.roomWidth
+  );
+
+  console.log(
+    "groupRef konvaContainerRef",
+    groupRef.current?.getAbsolutePosition(),
+    "konvaContainerRef.current?.getBoundingClientRect().x",
+    konvaContainerRef.current?.getBoundingClientRect().x,
+    konvaContainerRef.current?.getBoundingClientRect().y,
+    "konvaContainerRef.current?.clientWidth",
+    konvaContainerRef.current?.clientWidth,
+    "stagWidth",
+    stagWidth,
+    "rectRef",
+    rectRef.current?.width(),
+    rectRef.current?.height(),
+    // rectRef.current,
+    "measurementUnit",
+    measurementUnit,
+    "measurementUnit",
+    window.innerWidth
+  );
+
+  useEffect(() => {
+    if (groupRef.current && rectRef.current && stageRef.current) {
+      console.log(
+        "groupRef konvaContainerRef",
+        groupRef.current.getAbsolutePosition(),
+        konvaContainerRef.current?.getBoundingClientRect().x,
+        konvaContainerRef.current?.clientWidth,
+        "camerasCharc inside useeffect",
+        camerasCharc
+      );
+
+      // setCamPositions((prev) => {
+      //   // const newPositions = camerasCharc
+      //   //   .filter((cam) => !prev?.some((camPos) => camPos.camId === cam.id))
+      //   //   .map((cam) => ({
+      //   //     camId: cam.id,
+      //   //     camX: groupRef.current?.getAbsolutePosition().x
+      //   //       ? groupRef.current?.getAbsolutePosition().x * measurementUnit
+      //   //       : 0,
+      //   //     camY: groupRef.current?.getAbsolutePosition().y
+      //   //       ? groupRef.current?.getAbsolutePosition().y * measurementUnit
+      //   //       : 0,
+      //   //   }));
+
+      //   // return [...prev, ...newPositions];
+
+      //   const camPosArray = camerasCharc.map((camCar) => {
+      //     const exist = prev.some((camPos) => camPos.camId === camCar.id);
+      //     if (exist) {
+      //       return {
+
+      //       };
+      //     }
+      //   });
+      // });
+
+      const maxWidth = rectRef.current?.width();
+      const maxRectWidth =
+        maxWidth > rectRef.current?.width()
+          ? maxWidth
+          : rectRef.current?.width();
+
+      const relativeRectWidth =
+        rectRef.current?.width() /
+        (window.outerWidth - stageRef.current?.getAbsolutePosition().x);
+
+      console.log(
+        "relativeRectWidth maxRectWidth rectRef.current?.width() minWidth",
+        relativeRectWidth,
+        maxRectWidth,
+        rectRef.current?.width()
+      );
+      setCamerasCharc((prev) => {
+        return prev.map((cam) => {
+          return {
+            ...cam,
+            camPosition: {
+              x: groupRef.current?.getAbsolutePosition().x
+                ? groupRef.current?.getAbsolutePosition().x * relativeRectWidth
+                : 0,
+              y: groupRef.current?.getAbsolutePosition().y ?? 0,
+            },
+          };
+        });
+      });
+    }
+  }, [measurementUnit]); // Run once after initial render
 
   const transformerRef = useRef<Konva.Transformer>(null);
 
@@ -64,15 +167,16 @@ KonvaPageProps) => {
     <div ref={konvaContainerRef} className="konva-container h-auto">
       <Stage
         ref={stageRef}
-        className="flex justify-center  w-[100%] h-auto  py-5 "
+        className="flex justify-center w-[100%] h-auto py-0"
         width={stagWidth.current}
         height={stageHeight}
         // onClick={onBgClick}
       >
         <Layer>
           <Rect
-            x={20}
-            y={20}
+            ref={rectRef}
+            x={2}
+            y={2}
             width={roomDetails.roomWidth * measurementUnit}
             height={roomDetails.roomLength * measurementUnit}
             fill="white"
@@ -95,10 +199,13 @@ KonvaPageProps) => {
           </Group> */}
           {camerasCharc.length > 0 &&
             camerasCharc.map((camera) => {
+              // const camPos = camPositions?.find(
+              //   (camPos) => camPos.camId === camera.id
+              // );
               return (
                 <Group
-                  x={0}
-                  y={0}
+                  x={camera.camPosition.x}
+                  y={camera.camPosition.y}
                   ref={groupRef}
                   rotation={camera.camRotation}
                   onClick={onShapeClick}

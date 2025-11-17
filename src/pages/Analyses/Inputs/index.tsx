@@ -90,6 +90,10 @@ const InputSetup = ({ onClick }: InputSetupProps) => {
             tiltRange: values.tiltRange,
             camRotation: 360,
             verticalFOV: values.verticalFOV,
+            camPosition: {
+              x: 2,
+              y: 2,
+            },
           },
         ];
       });

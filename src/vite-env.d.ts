@@ -27,6 +27,11 @@ type DORI = {
 
 type CameraDORI = DORI[];
 
+type CamPosition = {
+  x: number;
+  y: number;
+};
+
 type CameraDetails = {
   id: string;
   cameraDORI: CameraDORI;
@@ -34,6 +39,7 @@ type CameraDetails = {
   tiltRange: number;
   camRotation: number;
   verticalFOV: number;
+  camPosition: CamPosition;
 };
 
 type CamerasCharc = CameraDetails[];

@@ -17,20 +17,24 @@ export const useMeasurementUnit = (
       for (const entry of entries) {
         switch (true) {
           case entry.contentRect.width >= 1024:
-            setMeasurementUnit((entry.contentRect.width * 0.65) / roomWidth);
+            setMeasurementUnit((entry.contentRect.width * 0.99) / roomWidth);
             stagWidth.current = entry.contentRect.width;
+
             break;
           case entry.contentRect.width >= 768:
-            setMeasurementUnit((entry.contentRect.width * 0.7) / roomWidth);
+            setMeasurementUnit((entry.contentRect.width * 0.99) / roomWidth);
             stagWidth.current = entry.contentRect.width;
+
             break;
           case entry.contentRect.width >= 640:
-            setMeasurementUnit((entry.contentRect.width * 0.85) / roomWidth);
+            setMeasurementUnit((entry.contentRect.width * 0.99) / roomWidth);
             stagWidth.current = entry.contentRect.width;
+
             break;
           default:
-            setMeasurementUnit((entry.contentRect.width * 0.85) / roomWidth);
+            setMeasurementUnit((entry.contentRect.width * 0.99) / roomWidth);
             stagWidth.current = entry.contentRect.width;
+
             break;
         }
       }
